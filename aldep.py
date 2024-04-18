@@ -72,63 +72,69 @@ paths = {
     "MOBILE_paths" : [[1, 6, 7, 9], [2, 6, 7, 9], [3, 6, 7, 9], [4, 6, 7, 9]]
 }
 
-  
+check_range = list(range(1 , 14 ))
 options = []
 my_dict = {}
+ 
 # Tìm department tiếp theo dựa trên các quy tắc đã cho
 def find_next_department(array2d):
     if len(options) > 0 : 
         options.clear()
+    while True : 
     # Tạo một danh sách các department
-    departments = list(range(1, 14))
+        departments = list(range(1, 14))
 
-# Chọn department đầu tiên ngẫu nhiên
-    last_department = choice(departments)
-    
-    print(array2d)
-    options.append(last_department)
-    departments.remove(last_department)
-    print(array2d[3][4])
-    while len(departments) > 0:
-        for i in range(0, 13):
-            if array2d[last_department - 1][i] > 150:
-                if (i + 1) in departments : 
-                    my_dict[i + 1] = array2d[last_department - 1][i]
-                else : 
-                    pass
-            elif array2d[last_department - 1][i] > 100 and array2d[last_department - 1][i] <= 150:
-                if (i + 1) in departments : 
-                    my_dict[i + 1] = array2d[last_department - 1][i]
-                else : 
-                    pass
-            elif array2d[last_department - 1][i] > 50 and array2d[last_department - 1][i] <= 100:
-                if (i + 1) in departments : 
-                    my_dict[i + 1] = array2d[last_department - 1][i]
-                else : 
-                    pass
-            elif array2d[last_department - 1][i] > 15 and array2d[last_department - 1][i] <= 50:
-                if (i + 1) in departments : 
-                    my_dict[i + 1] = array2d[last_department - 1][i]
-                else : 
-                    pass
-            elif array2d[last_department - 1][i] > 0 and array2d[last_department - 1][i] <= 15:
-                if (i + 1) in departments : 
-                    my_dict[i + 1] = array2d[last_department - 1][i]
-                else : 
-                    pass
-            else :
-                pass 
-        if my_dict:
-            max_department = max(my_dict, key=my_dict.get)
-            options.append(max_department)
-            last_department = max_department
-            departments.remove(max_department)
-            my_dict.clear()
-        else:
-            random_number = choice(departments)
-            options.append(random_number)
-            last_department = random_number
-            departments.remove(random_number)
+    # Chọn department đầu tiên ngẫu nhiên
+        last_department = choice(departments)
+        if last_department in check_range : 
+            print(array2d)
+            options.append(last_department)
+            departments.remove(last_department)
+            print(array2d[3][4])
+            while len(departments) > 0:
+                for i in range(0, 13):
+                    if array2d[last_department - 1][i] > 150:
+                        if (i + 1) in departments : 
+                            my_dict[i + 1] = array2d[last_department - 1][i]
+                        else : 
+                            pass
+                    elif array2d[last_department - 1][i] > 100 and array2d[last_department - 1][i] <= 150:
+                        if (i + 1) in departments : 
+                            my_dict[i + 1] = array2d[last_department - 1][i]
+                        else : 
+                            pass
+                    elif array2d[last_department - 1][i] > 50 and array2d[last_department - 1][i] <= 100:
+                        if (i + 1) in departments : 
+                            my_dict[i + 1] = array2d[last_department - 1][i]
+                        else : 
+                            pass
+                    elif array2d[last_department - 1][i] > 15 and array2d[last_department - 1][i] <= 50:
+                        if (i + 1) in departments : 
+                            my_dict[i + 1] = array2d[last_department - 1][i]
+                        else : 
+                            pass
+                    elif array2d[last_department - 1][i] > 0 and array2d[last_department - 1][i] <= 15:
+                        if (i + 1) in departments : 
+                            my_dict[i + 1] = array2d[last_department - 1][i]
+                        else : 
+                            pass
+                    else :
+                        pass 
+                if my_dict:
+                    max_department = max(my_dict, key=my_dict.get)
+                    options.append(max_department)
+                    last_department = max_department
+                    departments.remove(max_department)
+                    my_dict.clear()
+                else:
+                    random_number = choice(departments)
+                    options.append(random_number)
+                    last_department = random_number
+                    departments.remove(random_number)
+            check_range.remove(options[0])
+            break 
+        else : 
+            pass 
     return options 
 
 # using loop 
@@ -140,11 +146,11 @@ def find_next_department(array2d):
 
 # Khoảng cách giữa hai department
 def distance(department1, department2):
-    width_diff = department_areas[department1][0] - department_areas[department2][0]
-    length_diff = department_areas[department1][1] - department_areas[department2][1]
+    width_diff = ( department_areas[department1][0] / 2 ) -  ( department_areas[department2][0] /2 )
+    length_diff = ( department_areas[department1][1] / 2 ) - ( department_areas[department2][1] / 2 )
     return math.sqrt(width_diff**2 + length_diff**2)
 
-# Tính Material Traveling Distance cho một đường đi của sản phẩm
+
 def calculate_material_traveling_distance(array2d):
     total_distance = 0
     path = find_next_department(array2d)
@@ -161,23 +167,33 @@ def calculate_material_traveling_distance(array2d):
 # print(total_material_cost)
 # print(f"path {path}")
 array2d = caculate_traveling_distance()
-check = True
+
 total_min = sys.maxsize
-while True:
-    if check:
+run = list(range(1, 14))
+while True : 
+    if len(check_range) > 0 : 
         total_material_cost, path = calculate_material_traveling_distance(array2d)
         print(total_material_cost)
         print(path)
         min_result[total_material_cost] = path[:]  
-        check = False
-    roll = input("Press Y to roll, enter X to exit and print results:  \n")
-    if roll.lower() == "x":  
+    else :
         break 
-    if roll.lower() == "y":
-        total_material_cost, path = calculate_material_traveling_distance(array2d)
-        print(total_material_cost) 
-        print(path) 
-        min_result[total_material_cost] = path[:] 
+
+# while True:
+#     if check:
+#         total_material_cost, path = calculate_material_traveling_distance(array2d)
+#         print(total_material_cost)
+#         print(path)
+#         min_result[total_material_cost] = path[:]  
+#         check = False
+#     roll = input("Press Y to roll, enter X to exit and print results:  \n")
+#     if roll.lower() == "x":  
+#         break 
+#     if roll.lower() == "y":
+#         total_material_cost, path = calculate_material_traveling_distance(array2d)
+#         print(total_material_cost) 
+#         print(path) 
+#         min_result[total_material_cost] = path[:] 
 
 print(min_result)
 for result , path in min_result.items():

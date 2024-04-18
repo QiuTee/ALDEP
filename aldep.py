@@ -87,10 +87,10 @@ def find_next_department(array2d):
     # Chọn department đầu tiên ngẫu nhiên
         last_department = choice(departments)
         if last_department in check_range : 
-            print(array2d)
+            # print(f"{array2d} \n")
             options.append(last_department)
             departments.remove(last_department)
-            print(array2d[3][4])
+            # print(array2d[3][4])
             while len(departments) > 0:
                 for i in range(0, 13):
                     if array2d[last_department - 1][i] > 150:
@@ -155,9 +155,9 @@ def calculate_material_traveling_distance(array2d):
     total_distance = 0
     path = find_next_department(array2d)
     for i in range(len(path) - 1):
-        total_distance += distance(path[i], path[i+1])
+        total_distance += (distance(path[i], path[i+1]) * array2d[path[i] - 1 ][path[i+1] - 1 ])
     
-    return total_distance * 100 , path 
+    return total_distance  , path 
 
 
 
@@ -173,8 +173,8 @@ run = list(range(1, 14))
 while True : 
     if len(check_range) > 0 : 
         total_material_cost, path = calculate_material_traveling_distance(array2d)
-        print(total_material_cost)
-        print(path)
+        # print(total_material_cost)
+        # print(path)
         min_result[total_material_cost] = path[:]  
     else :
         break 
@@ -195,12 +195,13 @@ while True :
 #         print(path) 
 #         min_result[total_material_cost] = path[:] 
 
-print(min_result)
+# print(min_result)
 for result , path in min_result.items():
     
     if(result < total_min) : 
         total_min = result
-
+        
+print(f"{array2d} \n")
 print(total_min)
 value = min_result[total_min]
 print(value)

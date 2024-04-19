@@ -72,12 +72,12 @@ paths = {
     "MOBILE_paths" : [[1, 6, 7, 9], [2, 6, 7, 9], [3, 6, 7, 9], [4, 6, 7, 9]]
 }
 
-check_range = list(range(1 , 14 ))
+
 options = []
 my_dict = {}
  
 # Tìm department tiếp theo dựa trên các quy tắc đã cho
-def find_next_department(array2d):
+def find_next_department(array2d  , check_range):
     if len(options) > 0 : 
         options.clear()
     while True : 
@@ -87,10 +87,10 @@ def find_next_department(array2d):
     # Chọn department đầu tiên ngẫu nhiên
         last_department = choice(departments)
         if last_department in check_range : 
-            # print(f"{array2d} \n")
+            print(f"{array2d} \n")
             options.append(last_department)
             departments.remove(last_department)
-            # print(array2d[3][4])
+
             while len(departments) > 0:
                 for i in range(0, 13):
                     if array2d[last_department - 1][i] > 150:
@@ -151,9 +151,9 @@ def distance(department1, department2):
     return math.sqrt(width_diff**2 + length_diff**2)
 
 
-def calculate_material_traveling_distance(array2d):
+def calculate_material_traveling_distance(array2d , check_range):
     total_distance = 0
-    path = find_next_department(array2d)
+    path = find_next_department(array2d , check_range)
     for i in range(len(path) - 1):
         total_distance += (distance(path[i], path[i+1]) * array2d[path[i] - 1 ][path[i+1] - 1 ])
     
@@ -166,18 +166,21 @@ def calculate_material_traveling_distance(array2d):
 # print("Total material cost:")
 # print(total_material_cost)
 # print(f"path {path}")
+time = int(input("Enter the number of times you want: "))
 array2d = caculate_traveling_distance()
 
 total_min = sys.maxsize
-run = list(range(1, 14))
-while True : 
-    if len(check_range) > 0 : 
-        total_material_cost, path = calculate_material_traveling_distance(array2d)
-        # print(total_material_cost)
-        # print(path)
-        min_result[total_material_cost] = path[:]  
-    else :
-        break 
+for i in range(time) : 
+    check_range = list(range(1 , 14 ))
+    while True : 
+        if len(check_range) > 0 : 
+            total_material_cost, path = calculate_material_traveling_distance(array2d , check_range)
+            print(total_material_cost)
+            print(path)
+            min_result[total_material_cost] = path[:]  
+        else :
+            i = i + 1 
+            break 
 
 # while True:
 #     if check:
